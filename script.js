@@ -175,17 +175,45 @@ class BeatAlignmentApp {
             <h3>${file.name}</h3>
             <p>File size: ${fileSize} MB</p>
             <p class="file-info">Ready to process with beat alignment</p>
-            <button class="browse-btn" onclick="app.chooseNewFile(); event.stopPropagation();">
+            <button class="browse-btn" id="chooseNewFileBtn">
                 <i class="fas fa-folder-open"></i> Choose Different File
             </button>
         `;
+        
+        // Add event listener to the new button
+        const chooseNewFileBtn = document.getElementById('chooseNewFileBtn');
+        chooseNewFileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.chooseNewFile();
+        });
     }
 
     chooseNewFile() {
-        // Reset selected file
+        // Reset selected file and UI state
         this.selectedFile = null;
+        document.getElementById('videoFile').value = '';
+        document.getElementById('processBtn').disabled = true;
+        
+        // Reset upload area to initial state
+        this.resetUploadArea();
+        
         // Trigger file input click
         document.getElementById('videoFile').click();
+    }
+
+    resetUploadArea() {
+        const uploadArea = document.getElementById('uploadArea');
+        uploadArea.innerHTML = `
+            <div class="upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3>Upload Your Video</h3>
+            <p>Drag and drop your video file here, or click to browse</p>
+            <p class="file-info">Supported formats: MP4, AVI, MOV, MKV (Max: 500MB)</p>
+            <button class="browse-btn" onclick="document.getElementById('videoFile').click()">
+                <i class="fas fa-folder-open"></i> Browse Files
+            </button>
+        `;
     }
 
     async processVideo() {
@@ -410,19 +438,8 @@ class BeatAlignmentApp {
         document.getElementById('videoFile').value = '';
         document.getElementById('processBtn').disabled = true;
         
-        // Reset upload area
-        const uploadArea = document.getElementById('uploadArea');
-        uploadArea.innerHTML = `
-            <div class="upload-icon">
-                <i class="fas fa-cloud-upload-alt"></i>
-            </div>
-            <h3>Upload Your Video</h3>
-            <p>Drag and drop your video file here, or click to browse</p>
-            <p class="file-info">Supported formats: MP4, AVI, MOV, MKV (Max: 500MB)</p>
-            <button class="browse-btn" onclick="document.getElementById('videoFile').click()">
-                <i class="fas fa-folder-open"></i> Browse Files
-            </button>
-        `;
+        // Reset upload area using the reusable method
+        this.resetUploadArea();
 
         this.showSection('upload-section');
     }
@@ -483,6 +500,8 @@ function saveApiConfig() {
 let app;
 document.addEventListener('DOMContentLoaded', () => {
     app = new BeatAlignmentApp();
+    // Make app globally accessible for onclick handlers
+    window.app = app;
     
     // Check if API server is accessible
     fetch(app.apiBaseUrl)
