@@ -244,6 +244,26 @@ body {
     color: var(--text-primary);
 }
 
+.setting-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.setting-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toggle-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .range-container,
 .input-container {
     display: flex;
@@ -332,7 +352,7 @@ body {
 }
 
 /* Toggle Switch */
-.setting-group input[type="checkbox"] {
+.toggle-container input[type="checkbox"] {
     display: none;
 }
 
@@ -344,6 +364,7 @@ body {
     border-radius: 12px;
     cursor: pointer;
     transition: background 0.3s ease;
+    display: block;
 }
 
 .toggle-slider::before {
@@ -358,11 +379,11 @@ body {
     transition: transform 0.3s ease;
 }
 
-input[type="checkbox"]:checked + .toggle-slider {
+.toggle-container input[type="checkbox"]:checked + .toggle-slider {
     background: var(--primary-color);
 }
 
-input[type="checkbox"]:checked + .toggle-slider::before {
+.toggle-container input[type="checkbox"]:checked + .toggle-slider::before {
     transform: translateX(26px);
 }
 

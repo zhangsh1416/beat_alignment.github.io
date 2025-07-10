@@ -64,9 +64,13 @@
                     <h4><i class="fas fa-cog"></i> Processing Settings</h4>
                     <div class="settings-grid">
                         <div class="setting-group">
-                            <label for="beatAlignment">Beat Alignment <i class="fas fa-question-circle param-help" data-param="beatAlignment"></i></label>
-                            <input type="checkbox" id="beatAlignment" checked>
-                            <span class="toggle-slider"></span>
+                            <div class="setting-header">
+                                <span class="setting-label">Beat Alignment <i class="fas fa-question-circle param-help" data-param="beatAlignment"></i></span>
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="beatAlignment" checked>
+                                    <label for="beatAlignment" class="toggle-slider"></label>
+                                </div>
+                            </div>
                             <div class="param-description" id="desc-beatAlignment">
                                 Enable or disable synchronization of video cuts with music beats. When enabled, the tool will analyze the audio track and time scene transitions to match the rhythm.
                             </div>
