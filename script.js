@@ -44,11 +44,25 @@ class BeatAlignmentApp {
 
         // Upload area click (only when no file is selected)
         document.getElementById('uploadArea').addEventListener('click', (e) => {
-            // Don't trigger file selection if clicking on a button
-            if (e.target.closest('button')) return;
+            console.log('Upload area clicked, target:', e.target); // Debug log
+            
+            // Handle "Choose Different File" button clicks using event delegation
+            if (e.target.closest('#chooseNewFileBtn')) {
+                console.log('Choose Different File button clicked!'); // Debug log
+                e.stopPropagation();
+                this.chooseNewFile();
+                return;
+            }
+            
+            // Don't trigger file selection if clicking on any other button
+            if (e.target.closest('button')) {
+                console.log('Other button clicked, ignoring'); // Debug log
+                return;
+            }
             
             // Only trigger file selection if no file is currently selected
             if (!this.selectedFile) {
+                console.log('Upload area clicked, triggering file selection'); // Debug log
                 document.getElementById('videoFile').click();
             }
         });
@@ -175,30 +189,32 @@ class BeatAlignmentApp {
             <h3>${file.name}</h3>
             <p>File size: ${fileSize} MB</p>
             <p class="file-info">Ready to process with beat alignment</p>
-            <button class="browse-btn" id="chooseNewFileBtn">
+            <button class="browse-btn" id="chooseNewFileBtn" onclick="chooseNewFile(); event.stopPropagation();">
                 <i class="fas fa-folder-open"></i> Choose Different File
             </button>
         `;
         
-        // Add event listener to the new button
-        const chooseNewFileBtn = document.getElementById('chooseNewFileBtn');
-        chooseNewFileBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.chooseNewFile();
-        });
+        // No need to add event listener - using event delegation instead
     }
 
     chooseNewFile() {
+        console.log('BeatAlignmentApp.chooseNewFile() called'); // Debug log
+        
         // Reset selected file and UI state
         this.selectedFile = null;
-        document.getElementById('videoFile').value = '';
+        const videoFileInput = document.getElementById('videoFile');
+        videoFileInput.value = '';
         document.getElementById('processBtn').disabled = true;
         
         // Reset upload area to initial state
         this.resetUploadArea();
         
-        // Trigger file input click
-        document.getElementById('videoFile').click();
+        // Small delay to ensure DOM is updated, then trigger file input click
+        setTimeout(() => {
+            const fileInput = document.getElementById('videoFile');
+            console.log('Clicking file input:', fileInput); // Debug log
+            fileInput.click();
+        }, 100);
     }
 
     resetUploadArea() {
@@ -510,6 +526,16 @@ function closeApiModal() {
 
 function saveApiConfig() {
     app.saveApiConfig();
+}
+
+// Global function for choosing new file (fallback)
+function chooseNewFile() {
+    console.log('Global chooseNewFile called (onclick fallback)');
+    if (window.app) {
+        window.app.chooseNewFile();
+    } else {
+        console.error('App instance not found!');
+    }
 }
 
 // Initialize app when page loads
