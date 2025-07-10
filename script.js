@@ -42,9 +42,15 @@ class BeatAlignmentApp {
             this.startNewVideo();
         });
 
-        // Upload area click
-        document.getElementById('uploadArea').addEventListener('click', () => {
-            document.getElementById('videoFile').click();
+        // Upload area click (only when no file is selected)
+        document.getElementById('uploadArea').addEventListener('click', (e) => {
+            // Don't trigger file selection if clicking on a button
+            if (e.target.closest('button')) return;
+            
+            // Only trigger file selection if no file is currently selected
+            if (!this.selectedFile) {
+                document.getElementById('videoFile').click();
+            }
         });
 
         // Parameter description toggles
@@ -169,16 +175,17 @@ class BeatAlignmentApp {
             <h3>${file.name}</h3>
             <p>File size: ${fileSize} MB</p>
             <p class="file-info">Ready to process with beat alignment</p>
-            <button class="browse-btn" id="changeDifferentFile">
+            <button class="browse-btn" onclick="app.chooseNewFile(); event.stopPropagation();">
                 <i class="fas fa-folder-open"></i> Choose Different File
             </button>
         `;
-        
-        // Add click event to the new button
-        document.getElementById('changeDifferentFile').addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent upload area click event
-            document.getElementById('videoFile').click();
-        });
+    }
+
+    chooseNewFile() {
+        // Reset selected file
+        this.selectedFile = null;
+        // Trigger file input click
+        document.getElementById('videoFile').click();
     }
 
     async processVideo() {
