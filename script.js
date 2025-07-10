@@ -202,6 +202,7 @@ class BeatAlignmentApp {
         
         // Reset selected file and UI state
         this.selectedFile = null;
+        this.processingStartTime = null; // Reset processing timer
         const videoFileInput = document.getElementById('videoFile');
         videoFileInput.value = '';
         document.getElementById('processBtn').disabled = true;
@@ -330,7 +331,13 @@ class BeatAlignmentApp {
                 const message = status.message.toLowerCase();
                 console.log('Processing message:', message); // Debug log
                 
-                // More specific keyword matching with priority order
+                // Initialize processing timer if not set
+                if (!this.processingStartTime) {
+                    this.processingStartTime = Date.now();
+                }
+                const elapsed = (Date.now() - this.processingStartTime) / 1000; // seconds
+                
+                // More specific keyword matching with priority order (most specific first)
                 if (message.includes('generating') || message.includes('finalizing') || message.includes('creating video') || message.includes('saving')) {
                     progress = 90;
                     activeStep = 4;
@@ -340,24 +347,24 @@ class BeatAlignmentApp {
                 } else if (message.includes('chorus') || message.includes('detecting') || message.includes('extract') || message.includes('music')) {
                     progress = 50;
                     activeStep = 2;
-                } else if (message.includes('scene') || message.includes('analyzing') || message.includes('analysis') || message.includes('processing')) {
+                } else if (message.includes('scene') || message.includes('analyzing') || message.includes('analysis')) {
                     progress = 25;
                     activeStep = 1;
                 } else {
-                    // Use a progressive fallback based on time or add incremental progress
-                    const currentTime = Date.now();
-                    if (!this.processingStartTime) {
-                        this.processingStartTime = currentTime;
+                    // Time-based fallback for unknown messages - progressive increase
+                    if (elapsed < 20) {
+                        progress = 25;
+                        activeStep = 1;
+                    } else if (elapsed < 40) {
+                        progress = 45;
+                        activeStep = 2;
+                    } else if (elapsed < 80) {
+                        progress = 65;
+                        activeStep = 3;
+                    } else {
+                        progress = 85;
+                        activeStep = 4;
                     }
-                    const elapsed = (currentTime - this.processingStartTime) / 1000; // seconds
-                    
-                    // Progressive increase: 25% after 0s, 45% after 30s, 65% after 60s, 85% after 120s
-                    if (elapsed < 30) progress = 25;
-                    else if (elapsed < 60) progress = 45;
-                    else if (elapsed < 120) progress = 65;
-                    else progress = 85;
-                    
-                    activeStep = Math.min(4, Math.floor(elapsed / 30) + 1);
                 }
                 break;
             case 'completed':
@@ -464,6 +471,7 @@ class BeatAlignmentApp {
         this.selectedFile = null;
         this.currentJobId = null;
         this.resultFilename = null;
+        this.processingStartTime = null; // Reset processing timer
         this.clearPolling();
 
         // Reset UI
