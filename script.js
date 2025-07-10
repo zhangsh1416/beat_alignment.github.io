@@ -239,6 +239,7 @@ class BeatAlignmentApp {
         try {
             this.showSection('processing-section');
             this.updateProcessingMessage('Uploading video to server...');
+            this.processingStartTime = Date.now(); // Initialize processing timer
 
             const response = await fetch(`${this.apiBaseUrl}/process-video`, {
                 method: 'POST',
@@ -311,27 +312,42 @@ class BeatAlignmentApp {
             case 'processing':
                 // Map processing stages to progress and steps
                 const message = status.message.toLowerCase();
-                if (message.includes('scene') || message.includes('analyzing')) {
-                    progress = 25;
-                    activeStep = 1;
-                } else if (message.includes('chorus') || message.includes('detecting')) {
-                    progress = 50;
-                    activeStep = 2;
-                } else if (message.includes('beat') || message.includes('alignment')) {
-                    progress = 75;
-                    activeStep = 3;
-                } else if (message.includes('video') || message.includes('generating') || message.includes('finalizing')) {
+                console.log('Processing message:', message); // Debug log
+                
+                // More specific keyword matching with priority order
+                if (message.includes('generating') || message.includes('finalizing') || message.includes('creating video') || message.includes('saving')) {
                     progress = 90;
                     activeStep = 4;
-                } else {
-                    // Default processing progress
-                    progress = 30;
+                } else if (message.includes('beat') || message.includes('alignment') || message.includes('aligning') || message.includes('synchroniz')) {
+                    progress = 75;
+                    activeStep = 3;
+                } else if (message.includes('chorus') || message.includes('detecting') || message.includes('extract') || message.includes('music')) {
+                    progress = 50;
                     activeStep = 2;
+                } else if (message.includes('scene') || message.includes('analyzing') || message.includes('analysis') || message.includes('processing')) {
+                    progress = 25;
+                    activeStep = 1;
+                } else {
+                    // Use a progressive fallback based on time or add incremental progress
+                    const currentTime = Date.now();
+                    if (!this.processingStartTime) {
+                        this.processingStartTime = currentTime;
+                    }
+                    const elapsed = (currentTime - this.processingStartTime) / 1000; // seconds
+                    
+                    // Progressive increase: 25% after 0s, 45% after 30s, 65% after 60s, 85% after 120s
+                    if (elapsed < 30) progress = 25;
+                    else if (elapsed < 60) progress = 45;
+                    else if (elapsed < 120) progress = 65;
+                    else progress = 85;
+                    
+                    activeStep = Math.min(4, Math.floor(elapsed / 30) + 1);
                 }
                 break;
             case 'completed':
                 progress = 100;
                 activeStep = 4;
+                this.processingStartTime = null; // Reset timer
                 break;
         }
 
