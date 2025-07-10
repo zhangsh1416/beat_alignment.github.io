@@ -327,33 +327,38 @@ class BeatAlignmentApp {
                 activeStep = 1;
                 break;
             case 'processing':
-                // Initialize processing timer if not set
-                if (!this.processingStartTime) {
-                    this.processingStartTime = Date.now();
-                }
-                const elapsed = (Date.now() - this.processingStartTime) / 1000; // seconds
-                
-                // Use time-based progressive system instead of unreliable keyword matching
-                // This ensures smooth progression regardless of message content
-                if (elapsed < 15) {
-                    progress = Math.min(25, 5 + (elapsed / 15) * 20); // 5% -> 25% over 15s
-                    activeStep = 1;
-                } else if (elapsed < 35) {
-                    progress = Math.min(50, 25 + ((elapsed - 15) / 20) * 25); // 25% -> 50% over 20s
-                    activeStep = 2;
-                } else if (elapsed < 60) {
-                    progress = Math.min(75, 50 + ((elapsed - 35) / 25) * 25); // 50% -> 75% over 25s
-                    activeStep = 3;
-                } else if (elapsed < 90) {
-                    progress = Math.min(90, 75 + ((elapsed - 60) / 30) * 15); // 75% -> 90% over 30s
-                    activeStep = 4;
+                // Use real progress from API server if available
+                if (status.progress !== undefined && status.progress !== null) {
+                    progress = status.progress;
+                    // Determine active step based on progress
+                    if (progress <= 25) activeStep = 1;
+                    else if (progress <= 50) activeStep = 2;
+                    else if (progress <= 75) activeStep = 3;
+                    else activeStep = 4;
                 } else {
-                    progress = Math.min(95, 90 + ((elapsed - 90) / 60) * 5); // 90% -> 95% slowly
-                    activeStep = 4;
+                    // Fallback to time-based if no progress provided
+                    if (!this.processingStartTime) {
+                        this.processingStartTime = Date.now();
+                    }
+                    const elapsed = (Date.now() - this.processingStartTime) / 1000;
+                    
+                    if (elapsed < 15) {
+                        progress = Math.min(25, 5 + (elapsed / 15) * 20);
+                        activeStep = 1;
+                    } else if (elapsed < 35) {
+                        progress = Math.min(50, 25 + ((elapsed - 15) / 20) * 25);
+                        activeStep = 2;
+                    } else if (elapsed < 60) {
+                        progress = Math.min(75, 50 + ((elapsed - 35) / 25) * 25);
+                        activeStep = 3;
+                    } else {
+                        progress = Math.min(90, 75 + ((elapsed - 60) / 30) * 15);
+                        activeStep = 4;
+                    }
                 }
                 
                 // Log for debugging
-                console.log(`Processing: ${elapsed.toFixed(1)}s, Progress: ${progress.toFixed(1)}%, Step: ${activeStep}, Message: "${status.message}"`);
+                console.log(`Processing: Progress: ${progress}%, Step: ${activeStep}, Message: "${status.message}"`);
                 break;
             case 'completed':
                 progress = 100;
