@@ -46,6 +46,9 @@ class BeatAlignmentApp {
         document.getElementById('uploadArea').addEventListener('click', () => {
             document.getElementById('videoFile').click();
         });
+
+        // Parameter description toggles
+        this.initializeParameterDescriptions();
     }
 
     initializeDragAndDrop() {
@@ -86,6 +89,38 @@ class BeatAlignmentApp {
                 }
                 valueDisplay.textContent = value;
             });
+        });
+    }
+
+    initializeParameterDescriptions() {
+        // Add click listeners to parameter labels
+        const paramLabels = document.querySelectorAll('.param-label');
+        
+        paramLabels.forEach(label => {
+            label.addEventListener('click', (e) => {
+                e.preventDefault();
+                const paramName = label.getAttribute('data-param');
+                const description = document.getElementById(`desc-${paramName}`);
+                
+                // Close all other descriptions
+                document.querySelectorAll('.param-description').forEach(desc => {
+                    if (desc !== description) {
+                        desc.classList.remove('show');
+                    }
+                });
+                
+                // Toggle current description
+                description.classList.toggle('show');
+            });
+        });
+
+        // Close descriptions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.setting-group')) {
+                document.querySelectorAll('.param-description').forEach(desc => {
+                    desc.classList.remove('show');
+                });
+            }
         });
     }
 
@@ -212,7 +247,7 @@ class BeatAlignmentApp {
         // Update message
         this.updateProcessingMessage(status.message);
 
-        // Update progress (simulate progress based on status)
+        // Update progress based on actual processing stage
         let progress = 0;
         let activeStep = 1;
 
@@ -222,12 +257,29 @@ class BeatAlignmentApp {
                 activeStep = 1;
                 break;
             case 'processing':
-                // Simulate progress based on time (rough estimate)
-                progress = Math.min(85, 20 + Math.random() * 40);
-                if (status.message.includes('scene')) activeStep = 1;
-                else if (status.message.includes('chorus')) activeStep = 2;
-                else if (status.message.includes('beat')) activeStep = 3;
-                else if (status.message.includes('video')) activeStep = 4;
+                // Map processing stages to progress and steps
+                const message = status.message.toLowerCase();
+                if (message.includes('scene') || message.includes('analyzing')) {
+                    progress = 25;
+                    activeStep = 1;
+                } else if (message.includes('chorus') || message.includes('detecting')) {
+                    progress = 50;
+                    activeStep = 2;
+                } else if (message.includes('beat') || message.includes('alignment')) {
+                    progress = 75;
+                    activeStep = 3;
+                } else if (message.includes('video') || message.includes('generating') || message.includes('finalizing')) {
+                    progress = 90;
+                    activeStep = 4;
+                } else {
+                    // Default processing progress
+                    progress = 30;
+                    activeStep = 2;
+                }
+                break;
+            case 'completed':
+                progress = 100;
+                activeStep = 4;
                 break;
         }
 
