@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beat Alignment - AI Video Highlight Generator</title>
+    <title>Highlight Extractor - AI Video Highlight Generator</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -13,7 +13,7 @@
         <header class="header">
             <div class="logo">
                 <i class="fas fa-music"></i>
-                <h1>Beat Alignment</h1>
+                <h1>Highlight Extractor</h1>
             </div>
             <p class="subtitle">AI-Powered Video Highlight Generator with Beat Synchronization</p>
         </header>
@@ -21,31 +21,7 @@
         <!-- Tool Description -->
         <section class="tool-description">
             <div class="description-content">
-                <h2><i class="fas fa-info-circle"></i> What is Beat Alignment?</h2>
-                <p>Beat Alignment is an AI-powered video processing tool that automatically creates engaging highlight videos synchronized to music beats. It analyzes your video content, detects the most interesting scenes, and aligns them perfectly with musical rhythms to create professional-looking highlights.</p>
-                
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <i class="fas fa-brain"></i>
-                        <h4>AI Scene Analysis</h4>
-                        <p>Intelligent detection of the most engaging moments in your video</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-music"></i>
-                        <h4>Musical Synchronization</h4>
-                        <p>Perfectly aligns video cuts with music beats for professional results</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-magic"></i>
-                        <h4>Automatic Editing</h4>
-                        <p>No manual editing required - just upload and let AI do the work</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-clock"></i>
-                        <h4>Quick Processing</h4>
-                        <p>Get your highlight video ready in minutes, not hours</p>
-                    </div>
-                </div>
+                <p>Highlight Extractor uses AI to automatically create engaging video highlights synchronized to music beats. Simply upload your video, and our intelligent system will analyze the content, detect the most exciting moments, and perfectly align them with musical rhythms to create professional-looking highlights in minutes.</p>
             </div>
         </section>
 
@@ -71,49 +47,58 @@
                     <h4><i class="fas fa-cog"></i> Processing Settings</h4>
                     <div class="settings-grid">
                         <div class="setting-group">
-                            <label for="beatAlignment" class="param-label" data-param="beatAlignment">
-                                Beat Alignment <i class="fas fa-question-circle"></i>
-                            </label>
-                            <input type="checkbox" id="beatAlignment" checked>
-                            <span class="toggle-slider"></span>
+                            <div class="checkbox-container">
+                                <label for="beatAlignment">Beat Alignment</label>
+                                <i class="fas fa-question-circle param-help" data-param="beatAlignment"></i>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <label for="beatAlignment" class="checkbox-label">
+                                    <input type="checkbox" id="beatAlignment" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
                             <div class="param-description" id="desc-beatAlignment">
                                 Enable or disable synchronization of video cuts with music beats. When enabled, the tool will analyze the audio track and time scene transitions to match the rhythm.
                             </div>
                         </div>
                         <div class="setting-group">
-                            <label for="beatStrength" class="param-label" data-param="beatStrength">
-                                Beat Sensitivity <i class="fas fa-question-circle"></i>
-                            </label>
-                            <input type="range" id="beatStrength" min="0.3" max="1.0" step="0.05" value="0.78">
+                            <div class="range-container">
+                                <label for="beatStrength">Beat Sensitivity</label>
+                                <i class="fas fa-question-circle param-help" data-param="beatStrength"></i>
+                            </div>
+                            <input type="range" id="beatStrength" min="0.3" max="1.0" step="0.01" value="0.78">
                             <span class="range-value">0.78</span>
                             <div class="param-description" id="desc-beatStrength">
                                 Controls how sensitive the beat detection algorithm is. Higher values (0.8-1.0) detect only strong, prominent beats. Lower values (0.3-0.6) detect more subtle rhythm changes.
                             </div>
                         </div>
                         <div class="setting-group">
-                            <label for="minShotLength" class="param-label" data-param="minShotLength">
-                                Min Shot Length <i class="fas fa-question-circle"></i>
-                            </label>
-                            <input type="range" id="minShotLength" min="0.2" max="2.0" step="0.1" value="0.5">
-                            <span class="range-value">0.5s</span>
+                            <div class="range-container">
+                                <label for="minShotLength">Min Shot Length</label>
+                                <i class="fas fa-question-circle param-help" data-param="minShotLength"></i>
+                            </div>
+                            <input type="range" id="minShotLength" min="0.2" max="2.0" step="0.01" value="0.50">
+                            <span class="range-value">0.50s</span>
                             <div class="param-description" id="desc-minShotLength">
                                 Minimum duration for each video scene in the highlight. Shorter values create more dynamic, fast-paced videos. Recommended: 0.3-0.8s for energetic content, 0.8-1.5s for smoother flow.
                             </div>
                         </div>
                         <div class="setting-group">
-                            <label for="maxShotLength" class="param-label" data-param="maxShotLength">
-                                Max Shot Length <i class="fas fa-question-circle"></i>
-                            </label>
-                            <input type="range" id="maxShotLength" min="1.0" max="5.0" step="0.1" value="3.0">
-                            <span class="range-value">3.0s</span>
+                            <div class="range-container">
+                                <label for="maxShotLength">Max Shot Length</label>
+                                <i class="fas fa-question-circle param-help" data-param="maxShotLength"></i>
+                            </div>
+                            <input type="range" id="maxShotLength" min="1.0" max="5.0" step="0.01" value="3.00">
+                            <span class="range-value">3.00s</span>
                             <div class="param-description" id="desc-maxShotLength">
                                 Maximum duration for each video scene. Longer values allow more context per scene but may reduce overall energy. Recommended: 2-4s for most content, up to 5s for detailed scenes.
                             </div>
                         </div>
                         <div class="setting-group">
-                            <label for="apiKey" class="param-label" data-param="apiKey">
-                                Gemini API Key (Optional) <i class="fas fa-question-circle"></i>
-                            </label>
+                            <div class="input-container">
+                                <label for="apiKey">Gemini API Key (Optional)</label>
+                                <i class="fas fa-question-circle param-help" data-param="apiKey"></i>
+                            </div>
                             <input type="password" id="apiKey" placeholder="Enter your API key or use default">
                             <div class="param-description" id="desc-apiKey">
                                 Optional Google Gemini API key for enhanced AI scene analysis. If not provided, the system will use a default key with potential rate limits. Get your free key at Google AI Studio.
@@ -243,7 +228,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>&copy; 2024 Beat Alignment. Powered by AI scene analysis and advanced beat detection.</p>
+            <p>&copy; 2024 Highlight Extractor. Powered by AI scene analysis and advanced beat detection.</p>
             <div class="footer-links">
                 <a href="#" onclick="showApiInfo()"><i class="fas fa-info-circle"></i> API Info</a>
                 <a href="https://github.com/zhangsh1416/beat_alignment.github.io" target="_blank">

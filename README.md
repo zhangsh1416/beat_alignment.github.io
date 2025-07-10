@@ -1,6 +1,6 @@
-# Beat Alignment Web Frontend
+# Highlight Extractor Web Frontend
 
-A modern, responsive web interface for the Beat Alignment API that runs on GitHub Pages.
+A modern, responsive web interface for the Highlight Extractor API that runs on GitHub Pages.
 
 ## 🌟 Features
 
@@ -47,7 +47,7 @@ README.md
 1. **Push files to GitHub:**
 ```bash
 git add .
-git commit -m "Add Beat Alignment web interface"
+git commit -m "Add Highlight Extractor web interface"
 git push origin main
 ```
 
@@ -162,4 +162,4 @@ The frontend is designed to work with your local API server. For cloud deploymen
 2. Update the API URL in the frontend
 3. Configure proper CORS and authentication
 
-This creates a professional, user-friendly interface for your beat alignment system that can be easily shared and accessed via GitHub Pages! 🎉
+This creates a professional, user-friendly interface for your highlight extraction system that can be easily shared and accessed via GitHub Pages! 🎉

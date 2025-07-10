@@ -1,4 +1,4 @@
-// Beat Alignment Web App JavaScript
+// Highlight Extractor Web App JavaScript
 class BeatAlignmentApp {
     constructor() {
         this.apiBaseUrl = localStorage.getItem('apiServerUrl') || 'http://localhost:8000';
@@ -82,24 +82,35 @@ class BeatAlignmentApp {
             const slider = document.getElementById(id);
             const valueDisplay = slider.parentNode.querySelector('.range-value');
             
+            // Set initial value with proper formatting
+            let initialValue = parseFloat(slider.value);
+            let formattedInitial = initialValue.toFixed(2);
+            if (id.includes('Length')) {
+                formattedInitial += 's';
+            }
+            valueDisplay.textContent = formattedInitial;
+            
             slider.addEventListener('input', () => {
-                let value = slider.value;
+                let value = parseFloat(slider.value);
+                // Format to 2 decimal places for better precision
+                let formattedValue = value.toFixed(2);
                 if (id.includes('Length')) {
-                    value += 's';
+                    formattedValue += 's';
                 }
-                valueDisplay.textContent = value;
+                valueDisplay.textContent = formattedValue;
             });
         });
     }
 
     initializeParameterDescriptions() {
-        // Add click listeners to parameter labels
-        const paramLabels = document.querySelectorAll('.param-label');
+        // Add click listeners to parameter help icons
+        const paramHelp = document.querySelectorAll('.param-help');
         
-        paramLabels.forEach(label => {
-            label.addEventListener('click', (e) => {
+        paramHelp.forEach(helpIcon => {
+            helpIcon.addEventListener('click', (e) => {
                 e.preventDefault();
-                const paramName = label.getAttribute('data-param');
+                e.stopPropagation();
+                const paramName = helpIcon.getAttribute('data-param');
                 const description = document.getElementById(`desc-${paramName}`);
                 
                 // Close all other descriptions
@@ -360,7 +371,7 @@ class BeatAlignmentApp {
         if (!this.resultFilename) return;
 
         const shareData = {
-            title: 'Beat Alignment - AI Video Highlight',
+            title: 'Highlight Extractor - AI Video Highlight',
             text: 'Check out this AI-generated video highlight with beat alignment!',
             url: window.location.href
         };
