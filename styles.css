@@ -451,11 +451,50 @@ body {
     margin-bottom: 2rem;
 }
 
-.progress-bar {
+/* Stage Labels Above Progress Bar */
+.progress-stages {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.stage-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.stage-marker.active {
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.stage-marker.completed {
+    color: var(--success-color);
+}
+
+.stage-marker i {
+    font-size: 1.2rem;
+}
+
+.stage-marker span {
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Unified Progress Bar */
+.unified-progress-bar {
+    position: relative;
     width: 100%;
-    height: 8px;
+    height: 12px;
     background: var(--border-color);
-    border-radius: 4px;
+    border-radius: 6px;
     overflow: hidden;
     margin-bottom: 1rem;
 }
@@ -464,7 +503,27 @@ body {
     height: 100%;
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     width: 0%;
-    transition: width 0.3s ease;
+    transition: width 0.5s ease;
+    border-radius: 6px;
+}
+
+/* Stage Dividers */
+.stage-dividers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-1px);
 }
 
 .progress-text {
@@ -472,34 +531,6 @@ body {
     justify-content: space-between;
     font-size: 0.9rem;
     color: var(--text-secondary);
-}
-
-.processing-steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    background: rgba(102, 126, 234, 0.05);
-    transition: all 0.3s ease;
-}
-
-.step.active {
-    background: rgba(102, 126, 234, 0.15);
-    transform: scale(1.05);
-}
-
-.step i {
-    font-size: 1.5rem;
-    color: var(--primary-color);
 }
 
 .cancel-btn {

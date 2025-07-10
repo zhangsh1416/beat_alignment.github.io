@@ -136,31 +136,40 @@
                     </div>
                     
                     <div class="progress-container">
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progressFill"></div>
+                        <!-- Stage Labels Above Progress Bar -->
+                        <div class="progress-stages">
+                            <div class="stage-marker" data-stage="1">
+                                <i class="fas fa-brain"></i>
+                                <span>AI Scene Analysis</span>
+                            </div>
+                            <div class="stage-marker" data-stage="2">
+                                <i class="fas fa-music"></i>
+                                <span>Chorus Detection</span>
+                            </div>
+                            <div class="stage-marker" data-stage="3">
+                                <i class="fas fa-wave-square"></i>
+                                <span>Beat Alignment</span>
+                            </div>
+                            <div class="stage-marker" data-stage="4">
+                                <i class="fas fa-video"></i>
+                                <span>Video Generation</span>
+                            </div>
                         </div>
+                        
+                        <!-- Unified Progress Bar -->
+                        <div class="unified-progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                            <div class="stage-dividers">
+                                <div class="divider" style="left: 25%"></div>
+                                <div class="divider" style="left: 50%"></div>
+                                <div class="divider" style="left: 75%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Text Below -->
                         <div class="progress-text">
                             <span id="progressPercent">0%</span>
                             <span id="progressTime">Estimated: 5-15 minutes</span>
-                        </div>
-                    </div>
-
-                    <div class="processing-steps">
-                        <div class="step" id="step1">
-                            <i class="fas fa-brain"></i>
-                            <span>AI Scene Analysis</span>
-                        </div>
-                        <div class="step" id="step2">
-                            <i class="fas fa-music"></i>
-                            <span>Chorus Detection</span>
-                        </div>
-                        <div class="step" id="step3">
-                            <i class="fas fa-wave-square"></i>
-                            <span>Beat Alignment</span>
-                        </div>
-                        <div class="step" id="step4">
-                            <i class="fas fa-video"></i>
-                            <span>Video Generation</span>
                         </div>
                     </div>
 

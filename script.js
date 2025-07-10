@@ -359,6 +359,7 @@ class BeatAlignmentApp {
                 
                 // Log for debugging
                 console.log(`Processing: Progress: ${progress}%, Step: ${activeStep}, Message: "${status.message}"`);
+                console.log(`Status object:`, status);
                 break;
             case 'completed':
                 progress = 100;
@@ -376,18 +377,46 @@ class BeatAlignmentApp {
     }
 
     updateProgress(percent) {
-        document.getElementById('progressFill').style.width = `${percent}%`;
-        document.getElementById('progressPercent').textContent = `${Math.round(percent)}%`;
+        const progressFill = document.getElementById('progressFill');
+        const progressPercent = document.getElementById('progressPercent');
+        
+        if (progressFill) {
+            progressFill.style.width = `${percent}%`;
+        } else {
+            console.error('progressFill element not found');
+        }
+        
+        if (progressPercent) {
+            progressPercent.textContent = `${Math.round(percent)}%`;
+        } else {
+            console.error('progressPercent element not found');
+        }
     }
 
     updateActiveStep(stepNumber) {
-        // Remove active class from all steps
-        document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
-        
-        // Add active class to current step
-        const currentStep = document.getElementById(`step${stepNumber}`);
-        if (currentStep) {
-            currentStep.classList.add('active');
+        // Check if we have the new unified progress bar structure
+        const stageMarkers = document.querySelectorAll('.stage-marker');
+        if (stageMarkers.length > 0) {
+            // Remove active and completed classes from all stage markers
+            stageMarkers.forEach((marker, index) => {
+                marker.classList.remove('active', 'completed');
+                
+                // Mark completed stages
+                if (index + 1 < stepNumber) {
+                    marker.classList.add('completed');
+                }
+                // Mark current active stage
+                else if (index + 1 === stepNumber) {
+                    marker.classList.add('active');
+                }
+            });
+        } else {
+            // Fallback for old step structure
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+            const currentStep = document.getElementById(`step${stepNumber}`);
+            if (currentStep) {
+                currentStep.classList.add('active');
+            }
         }
     }
 
