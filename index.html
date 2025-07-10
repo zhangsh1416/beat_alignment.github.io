@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beat Alignment - AI Video Highlight Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-music"></i>
+                <h1>Beat Alignment</h1>
+            </div>
+            <p class="subtitle">AI-Powered Video Highlight Generator with Beat Synchronization</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section id="upload-section" class="section active">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Upload Your Video</h3>
+                    <p>Drag and drop your video file here, or click to browse</p>
+                    <p class="file-info">Supported formats: MP4, AVI, MOV, MKV (Max: 500MB)</p>
+                    <input type="file" id="videoFile" accept="video/*" hidden>
+                    <button class="browse-btn" onclick="document.getElementById('videoFile').click()">
+                        <i class="fas fa-folder-open"></i> Browse Files
+                    </button>
+                </div>
+
+                <!-- Advanced Settings -->
+                <div class="settings-panel" id="settingsPanel">
+                    <h4><i class="fas fa-cog"></i> Processing Settings</h4>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label for="beatAlignment">Beat Alignment</label>
+                            <input type="checkbox" id="beatAlignment" checked>
+                            <span class="toggle-slider"></span>
+                        </div>
+                        <div class="setting-group">
+                            <label for="beatStrength">Beat Sensitivity</label>
+                            <input type="range" id="beatStrength" min="0.3" max="1.0" step="0.05" value="0.78">
+                            <span class="range-value">0.78</span>
+                        </div>
+                        <div class="setting-group">
+                            <label for="minShotLength">Min Shot Length</label>
+                            <input type="range" id="minShotLength" min="0.2" max="2.0" step="0.1" value="0.5">
+                            <span class="range-value">0.5s</span>
+                        </div>
+                        <div class="setting-group">
+                            <label for="maxShotLength">Max Shot Length</label>
+                            <input type="range" id="maxShotLength" min="1.0" max="5.0" step="0.1" value="3.0">
+                            <span class="range-value">3.0s</span>
+                        </div>
+                        <div class="setting-group">
+                            <label for="apiKey">Gemini API Key (Optional)</label>
+                            <input type="password" id="apiKey" placeholder="Enter your API key or use default">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="process-btn" id="processBtn" disabled>
+                    <i class="fas fa-play"></i> Generate Highlight
+                </button>
+            </section>
+
+            <!-- Processing Section -->
+            <section id="processing-section" class="section">
+                <div class="processing-container">
+                    <div class="processing-header">
+                        <i class="fas fa-magic spinning"></i>
+                        <h3>Creating Your Beat-Aligned Highlight</h3>
+                        <p id="processingMessage">Analyzing video with AI...</p>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="progressPercent">0%</span>
+                            <span id="progressTime">Estimated: 5-15 minutes</span>
+                        </div>
+                    </div>
+
+                    <div class="processing-steps">
+                        <div class="step" id="step1">
+                            <i class="fas fa-brain"></i>
+                            <span>AI Scene Analysis</span>
+                        </div>
+                        <div class="step" id="step2">
+                            <i class="fas fa-music"></i>
+                            <span>Chorus Detection</span>
+                        </div>
+                        <div class="step" id="step3">
+                            <i class="fas fa-wave-square"></i>
+                            <span>Beat Alignment</span>
+                        </div>
+                        <div class="step" id="step4">
+                            <i class="fas fa-video"></i>
+                            <span>Video Generation</span>
+                        </div>
+                    </div>
+
+                    <button class="cancel-btn" id="cancelBtn">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-section" class="section">
+                <div class="results-container">
+                    <div class="results-header">
+                        <i class="fas fa-check-circle success"></i>
+                        <h3>Your Highlight is Ready!</h3>
+                        <p>Beat-aligned video highlight generated successfully</p>
+                    </div>
+
+                    <div class="video-player-container">
+                        <video id="resultVideo" controls poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='100%25' height='100%25' fill='%23000'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%23fff' font-size='20'%3EYour Beat-Aligned Highlight%3C/text%3E%3C/svg%3E">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+
+                    <div class="results-actions">
+                        <button class="download-btn" id="downloadBtn">
+                            <i class="fas fa-download"></i> Download Video
+                        </button>
+                        <button class="share-btn" id="shareBtn">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                        <button class="new-video-btn" id="newVideoBtn">
+                            <i class="fas fa-plus"></i> Process Another Video
+                        </button>
+                    </div>
+
+                    <div class="video-info">
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Duration: <span id="videoDuration">--</span></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-file-video"></i>
+                            <span>Size: <span id="videoSize">--</span></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-music"></i>
+                            <span>Beat-Aligned Scenes</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section id="error-section" class="section">
+                <div class="error-container">
+                    <div class="error-header">
+                        <i class="fas fa-exclamation-triangle error"></i>
+                        <h3>Processing Failed</h3>
+                        <p id="errorMessage">An error occurred while processing your video.</p>
+                    </div>
+                    
+                    <div class="error-details">
+                        <h4>Common Solutions:</h4>
+                        <ul>
+                            <li>Ensure your video file is in a supported format (MP4, AVI, MOV, MKV)</li>
+                            <li>Check that your video is under 500MB</li>
+                            <li>Verify the API server is running on localhost:8000</li>
+                            <li>Try with a shorter video (under 5 minutes) for faster processing</li>
+                        </ul>
+                    </div>
+
+                    <button class="retry-btn" id="retryBtn">
+                        <i class="fas fa-redo"></i> Try Again
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Beat Alignment. Powered by AI scene analysis and advanced beat detection.</p>
+            <div class="footer-links">
+                <a href="#" onclick="showApiInfo()"><i class="fas fa-info-circle"></i> API Info</a>
+                <a href="https://github.com/zhangsh1416/beat_alignment.github.io" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- API Configuration Modal -->
+    <div id="apiModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeApiModal()">&times;</span>
+            <h3>API Server Configuration</h3>
+            <div class="api-config">
+                <label for="apiServerUrl">API Server URL:</label>
+                <input type="text" id="apiServerUrl" value="http://localhost:8000" placeholder="http://localhost:8000">
+                <p class="api-note">
+                    <strong>Note:</strong> Make sure your API server is running locally with:
+                    <code>python api_server.py</code>
+                </p>
+                <button onclick="saveApiConfig()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
