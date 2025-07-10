@@ -16,14 +16,31 @@
                 <h1>Highlight Extractor</h1>
             </div>
             <p class="subtitle">AI-Powered Video Highlight Generator with Beat Synchronization</p>
-        </header>
-
-        <!-- Tool Description -->
-        <section class="tool-description">
-            <div class="description-content">
-                <p>Highlight Extractor uses AI to automatically create engaging video highlights synchronized to music beats. Simply upload your video, and our intelligent system will analyze the content, detect the most exciting moments, and perfectly align them with musical rhythms to create professional-looking highlights in minutes.</p>
+            <p class="description">Highlight Extractor uses AI to automatically create engaging video highlights synchronized to music beats. Simply upload your video, and our intelligent system will analyze the content, detect the most exciting moments, and perfectly align them with musical rhythms to create professional-looking highlights in minutes.</p>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-brain"></i>
+                    <h4>AI Scene Analysis</h4>
+                    <p>Intelligent detection of the most engaging moments in your video</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-music"></i>
+                    <h4>Musical Synchronization</h4>
+                    <p>Perfectly aligns video cuts with music beats for professional results</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-magic"></i>
+                    <h4>Automatic Editing</h4>
+                    <p>No manual editing required - just upload and let AI do the work</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-clock"></i>
+                    <h4>Quick Processing</h4>
+                    <p>Get your highlight video ready in minutes, not hours</p>
+                </div>
             </div>
-        </section>
+        </header>
 
         <!-- Main Content -->
         <main class="main-content">
@@ -47,16 +64,9 @@
                     <h4><i class="fas fa-cog"></i> Processing Settings</h4>
                     <div class="settings-grid">
                         <div class="setting-group">
-                            <div class="checkbox-container">
-                                <label for="beatAlignment">Beat Alignment</label>
-                                <i class="fas fa-question-circle param-help" data-param="beatAlignment"></i>
-                            </div>
-                            <div class="checkbox-wrapper">
-                                <label for="beatAlignment" class="checkbox-label">
-                                    <input type="checkbox" id="beatAlignment" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </div>
+                            <label for="beatAlignment">Beat Alignment <i class="fas fa-question-circle param-help" data-param="beatAlignment"></i></label>
+                            <input type="checkbox" id="beatAlignment" checked>
+                            <span class="toggle-slider"></span>
                             <div class="param-description" id="desc-beatAlignment">
                                 Enable or disable synchronization of video cuts with music beats. When enabled, the tool will analyze the audio track and time scene transitions to match the rhythm.
                             </div>

@@ -44,7 +44,7 @@ body {
 /* Header */
 .header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     padding: 2rem;
@@ -52,25 +52,49 @@ body {
     box-shadow: var(--shadow);
 }
 
-/* Tool Description */
-.tool-description {
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow);
-}
-
-.description-content p {
+.header .description {
     text-align: center;
     color: var(--text-secondary);
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     line-height: 1.6;
-    margin: 0;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 1rem auto 2rem auto;
+    max-width: 800px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    background: rgba(102, 126, 234, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-item i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.feature-item h4 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.feature-item p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
 }
 
 .logo {
@@ -220,23 +244,11 @@ body {
     color: var(--text-primary);
 }
 
-.checkbox-container,
 .range-container,
 .input-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.checkbox-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
 }
 
 .param-help {
@@ -754,12 +766,17 @@ input[type="checkbox"]:checked + .toggle-slider::before {
         padding: 1.5rem;
     }
     
-    .tool-description {
-        padding: 1rem;
+    .header .description {
+        font-size: 1rem;
     }
     
-    .description-content p {
-        font-size: 0.95rem;
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .feature-item {
+        padding: 1rem;
     }
     
     .settings-grid {
