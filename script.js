@@ -169,10 +169,16 @@ class BeatAlignmentApp {
             <h3>${file.name}</h3>
             <p>File size: ${fileSize} MB</p>
             <p class="file-info">Ready to process with beat alignment</p>
-            <button class="browse-btn" onclick="document.getElementById('videoFile').click()">
+            <button class="browse-btn" id="changeDifferentFile">
                 <i class="fas fa-folder-open"></i> Choose Different File
             </button>
         `;
+        
+        // Add click event to the new button
+        document.getElementById('changeDifferentFile').addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent upload area click event
+            document.getElementById('videoFile').click();
+        });
     }
 
     async processVideo() {
