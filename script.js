@@ -430,15 +430,43 @@ class BeatAlignmentApp {
     async showResults(filename) {
         this.resultFilename = filename;
         
-        // Set video source
-        const videoElement = document.getElementById('resultVideo');
-        videoElement.src = `${this.apiBaseUrl}/download/${filename}`;
-        
-        // Update video info when metadata loads
-        videoElement.addEventListener('loadedmetadata', () => {
-            const duration = Math.round(videoElement.duration);
-            document.getElementById('videoDuration').textContent = `${duration}s`;
-        });
+        // Load video with proper headers and create blob URL
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/download/${filename}`, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Failed to load video: ${response.status}`);
+            }
+            
+            const blob = await response.blob();
+            const videoUrl = URL.createObjectURL(blob);
+            
+            // Set video source to blob URL
+            const videoElement = document.getElementById('resultVideo');
+            videoElement.src = videoUrl;
+            
+            // Update video info when metadata loads
+            videoElement.addEventListener('loadedmetadata', () => {
+                const duration = Math.round(videoElement.duration);
+                document.getElementById('videoDuration').textContent = `${duration}s`;
+            });
+            
+            // Clean up blob URL when video is done
+            videoElement.addEventListener('loadeddata', () => {
+                // Don't revoke immediately, let it stay for playback
+                console.log('Video loaded successfully');
+            });
+            
+        } catch (error) {
+            console.error('Failed to load video:', error);
+            // Fallback to direct URL (might show ngrok warning)
+            const videoElement = document.getElementById('resultVideo');
+            videoElement.src = `${this.apiBaseUrl}/download/${filename}`;
+        }
 
         // Get file size (approximate)
         try {
