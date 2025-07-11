@@ -241,12 +241,24 @@ class BeatAlignmentApp {
 
         // Collect parameters
         const formData = new FormData();
+        
+        // Debug logging
+        console.log('Selected file:', this.selectedFile);
+        console.log('File name:', this.selectedFile ? this.selectedFile.name : 'NO FILE');
+        console.log('File size:', this.selectedFile ? this.selectedFile.size : 'NO FILE');
+        
         formData.append('file', this.selectedFile);
         formData.append('enable_beat_alignment', document.getElementById('beatAlignment').checked);
         formData.append('beat_strength_threshold', document.getElementById('beatStrength').value);
         formData.append('min_shot_length', document.getElementById('minShotLength').value);
         formData.append('max_shot_length', document.getElementById('maxShotLength').value);
         formData.append('alignment_method', 'magnet');
+        
+        // Debug FormData contents
+        console.log('FormData contents:');
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + (pair[1] instanceof File ? `File(${pair[1].name}, ${pair[1].size} bytes)` : pair[1]));
+        }
 
         const apiKey = document.getElementById('apiKey').value.trim();
         if (apiKey) {
