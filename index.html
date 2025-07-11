@@ -268,10 +268,10 @@
             <h3>API Server Configuration</h3>
             <div class="api-config">
                 <label for="apiServerUrl">API Server URL:</label>
-                <input type="text" id="apiServerUrl" value="http://localhost:8000" placeholder="http://localhost:8000">
+                <input type="text" id="apiServerUrl" value="http://192.168.178.25:8000" placeholder="http://192.168.178.25:8000">
                 <p class="api-note">
-                    <strong>Note:</strong> Make sure your API server is running locally with:
-                    <code>python api_server.py</code>
+                    <strong>Note:</strong> Make sure your API server is running on the network with:
+                    <code>python api_server.py</code> (Server will be accessible at http://192.168.178.25:8000)
                 </p>
                 <button onclick="saveApiConfig()">Save Configuration</button>
             </div>
