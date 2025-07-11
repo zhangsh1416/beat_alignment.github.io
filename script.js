@@ -1,7 +1,7 @@
 // Highlight Extractor Web App JavaScript
 class BeatAlignmentApp {
     constructor() {
-        this.apiBaseUrl = localStorage.getItem('apiServerUrl') || 'https://470765919aee.ngrok-free.app';
+        this.apiBaseUrl = localStorage.getItem('apiServerUrl') || 'https://1ef4503b6631.ngrok-free.app';
         this.currentJobId = null;
         this.pollingInterval = null;
         
@@ -260,7 +260,10 @@ class BeatAlignmentApp {
 
             const response = await fetch(`${this.apiBaseUrl}/process-video`, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
             });
 
             if (!response.ok) {
@@ -289,7 +292,11 @@ class BeatAlignmentApp {
         if (!this.currentJobId) return;
 
         try {
-            const response = await fetch(`${this.apiBaseUrl}/status/${this.currentJobId}`);
+            const response = await fetch(`${this.apiBaseUrl}/status/${this.currentJobId}`, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            });
             
             if (!response.ok) {
                 throw new Error(`Status check failed: ${response.status}`);
@@ -435,7 +442,12 @@ class BeatAlignmentApp {
 
         // Get file size (approximate)
         try {
-            const response = await fetch(`${this.apiBaseUrl}/download/${filename}`, { method: 'HEAD' });
+            const response = await fetch(`${this.apiBaseUrl}/download/${filename}`, { 
+                method: 'HEAD',
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            });
             const contentLength = response.headers.get('content-length');
             if (contentLength) {
                 const sizeInMB = (parseInt(contentLength) / (1024 * 1024)).toFixed(1);
@@ -452,7 +464,11 @@ class BeatAlignmentApp {
         if (!this.resultFilename) return;
 
         try {
-            const response = await fetch(`${this.apiBaseUrl}/download/${this.resultFilename}`);
+            const response = await fetch(`${this.apiBaseUrl}/download/${this.resultFilename}`, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            });
             const blob = await response.blob();
             
             // Create download link
@@ -576,7 +592,11 @@ document.addEventListener('DOMContentLoaded', () => {
     window.app = app;
     
     // Check if API server is accessible
-    fetch(app.apiBaseUrl)
+    fetch(app.apiBaseUrl, {
+        headers: {
+            'ngrok-skip-browser-warning': 'true'
+        }
+    })
         .then(response => {
             if (response.ok) {
                 console.log('API server is accessible');
