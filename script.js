@@ -1,7 +1,7 @@
 // Highlight Extractor Web App JavaScript
 class BeatAlignmentApp {
     constructor() {
-        this.apiBaseUrl = localStorage.getItem('apiServerUrl') || 'http://192.168.178.25:8000';
+        this.apiBaseUrl = localStorage.getItem('apiServerUrl') || 'https://470765919aee.ngrok-free.app';
         this.currentJobId = null;
         this.pollingInterval = null;
         

@@ -268,10 +268,10 @@
             <h3>API Server Configuration</h3>
             <div class="api-config">
                 <label for="apiServerUrl">API Server URL:</label>
-                <input type="text" id="apiServerUrl" value="http://192.168.178.25:8000" placeholder="http://192.168.178.25:8000">
+                <input type="text" id="apiServerUrl" value="https://470765919aee.ngrok-free.app" placeholder="https://470765919aee.ngrok-free.app">
                 <p class="api-note">
-                    <strong>Note:</strong> Make sure your API server is running on the network with:
-                    <code>python api_server.py</code> (Server will be accessible at http://192.168.178.25:8000)
+                    <strong>Note:</strong> API server is publicly accessible via ngrok tunnel at:
+                    <code>https://470765919aee.ngrok-free.app</code> (No local setup required!)
                 </p>
                 <button onclick="saveApiConfig()">Save Configuration</button>
             </div>
